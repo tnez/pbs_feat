@@ -13,18 +13,18 @@ provided in the FSL package.
 
 - Clone the git repository
 
-`git clone http://github.com/tnez/pbs_feat.git`
+`git clone http://github.com/tnez/pbs-feat.git`
 
 - Run the following script which will add the appropriate paths to
 your bashrc file.
 
-`./pbs_feat/setup.sh`
+`./pbs-feat/setup.sh`
 
 # Usage #
 
 ##Example
 
-`pbs_feat subject_list.txt NIfTI/rest.nii atlas/aal.nii.gz --smooth_dim=5.0`
+`pbs-feat subject-list.txt NIfTI/rest.nii atlas/aal.nii.gz --smooth-dim=5.0`
 
 ##Input
 
@@ -50,8 +50,8 @@ your bashrc file.
 
 In each subject directory, the following output will be created:
 
-- _epi-basename__mc.nii.gz
-- mc_params.csv
+- _epi-basename_-mc.nii.gz
+- mc-params.csv
 - _subject-id_.feat
 - template.fsf
 - timeseries.csv
