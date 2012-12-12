@@ -31,19 +31,13 @@ your bashrc file.
 - subject-list - file containing list of subject IDs and subject
   directories in the form of 'subject-000
   /Data/Project-000/subject-000'
-
 - epi - filename of epi (which is inside subject directory)
-
 - atlas - integer labeled atlas (must be in MNI space)
-
 - fieldmap (optional) - filename of fieldmap (which is inside subject
   directory)
-
 - mag (optional) - filename of magnitude image (which is inside
   subject directory)
-
 - smooth-dim (optional) - smoothing parameter
-
 - hp-cut (optional) - highpass cuttoff
 
 ##Output
