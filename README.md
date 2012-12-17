@@ -22,28 +22,39 @@ your bashrc file.
 
 # Usage #
 
-##Example
+`pbs_feat _subject-list_ _epi_ _maskdir_ _tr_ [options] 
 
-`pbs-feat subject-list.txt NIfTI/rest.nii atlas/aal.nii.gz --smooth-dim=5.0`
+##Cumpulsory Arguments
 
-##Input
-
-- subject-list - file containing list of subject IDs and subject
+- _subject-list_ - file containing list of subject IDs and subject
   directories in the form of 'subject-000
   /Data/Project-000/subject-000'
-- epi - filename of epi (which is inside subject directory)
-- atlas - integer labeled atlas (must be in MNI space)
-- fieldmap (optional) - filename of fieldmap (which is inside subject
-  directory)
-- mag (optional) - filename of magnitude image (which is inside
-  subject directory)
-- smooth-dim (optional) - smoothing parameter
-- hp-cut (optional) - highpass cuttoff
+
+- _epi_ - filename of epi (which is inside subject directory)
+
+- _maskdir_ - directory containing individual region masks
+
+- _tr_ - tr from scanner protocol (in seconds)
+
+##Optional Arguments
+
+- _i_: initial structural image to register epi to before registering
+  to template
+
+- _h_: highpass cuttoff (if not provided, no temporal filtering will
+  be performed)
+
+- _s_: smoothing parameter (if not provided, no smoothing will be
+  performed)
+
+- _t_: feat template file (if not provided, default will be used)
 
 ##Output
 
 In each subject directory, the following output will be created:
 
 - _subject-id_.feat
+
 - template.fsf
+
 - timeseries.txt
