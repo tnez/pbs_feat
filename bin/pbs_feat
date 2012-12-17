@@ -1,0 +1,128 @@
+#!/bin/sh
+
+VERSION=0.1
+
+## PRINT USAGE ##########
+print_usage() {
+    echo     
+    echo "FEAT LEVEL 1 v${VERSION}"
+    echo  
+    echo "Author:"
+    echo  
+    echo "  Travis Nesland <nesland@musc.edu>"
+    echo  
+    echo "Description:"
+    echo  
+    echo "  Perform first level feat analysis so that we can"
+    echo "  build and extract the time series"
+    echo  
+    echo "Usage:"
+    echo  
+    echo "  pbs_feat <subject-list> <epi-path> <mask-dir> <tr> [options]"
+    echo  
+    echo "Cumpulsory Arguments:"
+    echo  
+    echo "  <subject-list> file containing list of subject IDs and root"
+    echo "                 directories in space delimited form, ex:"
+    echo "                 SUB001 /data/proj/SUB001"
+    echo  
+    echo "  <epi-path>     string to append to subject directory to complete"
+    echo "                 path to epi"
+    echo  
+    echo "  <mask-dir>     path to directory containing individual masks,"
+    echo "                 each defining a unique region"
+    echo  
+    echo "  <tr>           value for tr as float"
+    echo  
+    echo "Options:"
+    echo 
+    echo "  -i   initial registration to subject structural image, if this"
+    echo "       is not provided, epi will be registred to mni template"
+    echo "       straight away"
+    echo
+    echo "  -h   high-pass cuttoff, temporal filtering will be done only if"
+    echo "       this parameter is provided"
+    echo  
+    echo "  -s   smoothing parameter, smoothing will be done only if this"
+    echo "       parameter is provided"
+    echo  
+    echo "  -t   overide feat template file with this file"
+    echo
+}
+
+## MAIN #########
+#################
+
+# (psuedo-)check expected arguments
+MINIMUM_ARG_COUNT=4
+if [ $# < MINIMUM_ARG_COUNT ]; then
+    print_usage
+    exit 127
+fi
+    
+# set up defaults
+INITIAL_REG=0
+SMOOTHING=0
+TEMPLATE="${PBS_FEAT_DIR}/lib/default.fsf"
+TEMPORAL_FILTERING=0
+
+# get positional arguments
+SUBJECT_LIST="$1"
+EPI="$2"
+ATLAS="$3"
+TR="$4"
+
+# get options
+while getopts "i:h:s:t:" OPT; do
+    case $OPT in
+        i)
+            INITIAL_REG=1
+            MAIN_STRUCT="$OPTARG"
+            ;;
+        h)
+            TEMPORAL_FILTERING=1
+            HP_PARAM="$OPTARG"
+            ;;
+        s)
+            SMOOTHING=1
+            SMOOTH_PARAM="$OPTARG"
+            ;;
+        t)
+            TEMPLATE="$OPTARG"
+            ;;
+        ?)
+            print_usage
+            exit 127
+            ;;lunch
+    esac
+done
+
+while read entry; do
+    # parse subject entry for ID, DIR
+    SUBJECT_ID=`echo $entry | cut -d ' ' -f 1`
+    SUBJECT_DIR=`echo $entry | cut -d ' ' -f 2`
+    # copy template file to subject directory
+    SUBJECT_TEMPLATE="$SUBJECT_DIR"/template.fsf
+    cp "$TEMPLATE" "$SUBJECT_TEMPLATE"
+    # append lines to template as required by input params
+    echo "" >> "$SUBJECT_TEMPLATE"
+    echo "# The following has been added by FIRST_LEVEL_FEAT v${VERSION}"  >> "$SUBJECT_TEMPLATE"
+    echo "#######################################################" >> "$SUBJECT_TEMPLATE"
+    echo "set feat_files(1) \"$SUBJECT_DIR/$EPI\"" >> "$SUBJECT_TEMPLATE"
+    num_volumes=`fslinfo "$SUBJECT_DIR/$EPI" | grep '^dim4' | awk '{print $NF}'`
+    echo "set fmri(npts) $num_volumes" >> "$SUBJECT_TEMPLATE"
+    echo "set fmri(outputdir) \"$SUBJECT_DIR/${SUBJECT_ID}.feat\"" >> "$SUBJECT_TEMPLATE"
+    echo "set fmri(regstandard) \"$FSLDIR/data/standard/MNI152_T1_2mm_brain\"" >> "$SUBJECT_TEMPLATE"
+    if [ INITIAL_REG == 1]; then
+        echo "set fmri(reghighres_yn) 1" >> "$SUBJECT_TEMPLATE"
+        echo "set highres_files(1) \"$SUBJECT_DIR/$MAIN_STRUCT\"" >> "$SUBJECT_TEMPLATE"
+    if [ TEMPORAL_FILTERING == 1 ]; then
+        echo "set fmri(temphp_yn) 1" >> "$SUBJECT_TEMPLATE"
+        echo "set fmri(paradigm_hp) $HP_PARAM" >> "$SUBJECT_TEMPLATE"
+    fi
+    if [ SMOOTHING == 1 ]; then
+        echo "set fmri(smooth) $SMOOTH_PARAM" >> "$SUBJECT_TEMPLATE"
+    fi
+    echo -e "Starting FIRST LEVEL FEAT for $SUBJECT_ID..."
+    qsub -v template="$SUBJECT_TEMPLATE" "${PBS_FEAT_DIR}/bin/run_feat_and_extract_ts.pbs"
+done

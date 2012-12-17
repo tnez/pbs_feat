@@ -1,0 +1,51 @@
+#PBS -N feat1
+#PBS -j oe
+#PBS -l select=1:ncpus=1:mem=128mb
+#PBS -l walltime=4:00:00
+#PBS -V
+#
+######################################################################
+#
+# INPUT::
+#
+#   mask_dir    - directory containing individual masks
+#   subject_dir - subject directory
+#   subject_id  - subject ID
+#   template    - feat template file for the given run
+#
+######################################################################
+
+
+cd "$PBS_O_WORKDIR" # change to directory that this job was launched
+                    # from
+
+
+## FIRST LEVEL FEAT ##################################################
+feat "$template" & 1>/dev/null 2>/dev/null  # launch feat
+wait $!                                     # wait for feat to finish
+
+
+## RUN FEATQUERY ON GIVEN MASKS ######################################
+feat_dir="$subject_dir/${subject_id}.feat"
+for mask in `ls $mask_dir`; do
+    mask_name=`echo $mask | cut -d '.' -f1`
+    featquery 1 $feat_dir 0 "$mask_name" "$mask_dir/$mask"
+done
+
+
+## EXTRACT TS FROM FEATQUERY OUTPUT ##################################
+outfile="$subject_dir/timeseries.txt"
+masks=( )
+ts_files=( )
+motion="$feat_dir/mc/prefiltered_func_data_mcf.par"
+for mask in `ls "$mask_dir" | sort -n | cut -d '.' -f1`; do
+    masks=("${masks[@]}" "$mask")
+    ts_files=("${ts_files[@]}" "$feat_dir"/"$mask"/"mean_mask_ts.txt")
+done
+header=`printf "%s\t" ${masks[@]} X_ROT Y_ROT Z_ROT X_TRANS Y_TRANS Z_TRANS`
+printf "${header}\n" >> "$outfile"
+paste ${ts_files[@]} "$motion" >> "$outfile"
+
+
+## EXIT ##############################################################
+exit 0

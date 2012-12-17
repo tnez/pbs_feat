@@ -44,8 +44,6 @@ your bashrc file.
 
 In each subject directory, the following output will be created:
 
-- _epi-basename_-mc.nii.gz
-- mc-params.csv
 - _subject-id_.feat
 - template.fsf
-- timeseries.csv
+- timeseries.txt
