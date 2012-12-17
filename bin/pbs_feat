@@ -48,6 +48,7 @@ print_usage() {
     echo  
     echo "  -t   overide feat template file with this file"
     echo
+    echo "  -v   print version"
 }
 
 ## MAIN #########
@@ -73,7 +74,7 @@ MASK_DIR="$3"
 TR="$4"
 
 # get options
-while getopts "i:h:s:t:" OPT; do
+while getopts "i:h:s:t:v" OPT; do
     case $OPT in
         i)
             INITIAL_REG=1
@@ -89,6 +90,10 @@ while getopts "i:h:s:t:" OPT; do
             ;;
         t)
             TEMPLATE="$OPTARG"
+            ;;
+        v)
+            echo $VERSION
+            exit 0
             ;;
         ?)
             print_usage
