@@ -126,4 +126,4 @@ while read entry; do
     fi
     echo -e "Starting FIRST LEVEL FEAT for $SUBJECT_ID..."
     qsub -v template="$SUBJECT_TEMPLATE" "${PBS_FEAT_DIR}/bin/run_feat_and_extract_ts.pbs"
-done
+done < "$SUBJECT_LIST"
