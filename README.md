@@ -22,7 +22,7 @@ your bashrc file.
 
 # Usage #
 
-`pbs_feat _subject-list_ _epi_ _maskdir_ _tr_ [options] 
+`pbs_feat <subject-list> <epi> <maskdir> <tr> [options]`
 
 ##Cumpulsory Arguments
 
