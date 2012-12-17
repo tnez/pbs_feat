@@ -5,7 +5,7 @@ VERSION=0.1
 ## PRINT USAGE ##########
 print_usage() {
     echo     
-    echo "FEAT LEVEL 1 v${VERSION}"
+    echo "PBS FEAT v${VERSION}"
     echo  
     echo "Author:"
     echo  
