@@ -93,7 +93,7 @@ while getopts "i:h:s:t:" OPT; do
         ?)
             print_usage
             exit 127
-            ;;lunch
+            ;;
     esac
 done
 
