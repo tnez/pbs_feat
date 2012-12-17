@@ -69,7 +69,7 @@ TEMPORAL_FILTERING=0
 # get positional arguments
 SUBJECT_LIST="$1"
 EPI="$2"
-ATLAS="$3"
+MASK_DIR="$3"
 TR="$4"
 
 # get options
@@ -124,5 +124,6 @@ while read entry; do
         echo "set fmri(smooth) $SMOOTH_PARAM" >> "$SUBJECT_TEMPLATE"
     fi
     echo -e "Starting FIRST LEVEL FEAT for $SUBJECT_ID..."
-    qsub -v template="$SUBJECT_TEMPLATE" "${PBS_FEAT_DIR}/bin/run_feat_and_extract_ts.pbs"
+    qsub -v mask_dir="$MASK_DIR",subject_dir="$SUBJECT_DIR",subject_id="$SUBJECT_ID",template="$SUBJECT_TEMPLATE" \
+        "${PBS_FEAT_DIR}/bin/run_feat_and_extract_ts.pbs"
 done
