@@ -116,6 +116,7 @@ while read entry; do
     if [ INITIAL_REG == 1]; then
         echo "set fmri(reghighres_yn) 1" >> "$SUBJECT_TEMPLATE"
         echo "set highres_files(1) \"$SUBJECT_DIR/$MAIN_STRUCT\"" >> "$SUBJECT_TEMPLATE"
+    fi
     if [ TEMPORAL_FILTERING == 1 ]; then
         echo "set fmri(temphp_yn) 1" >> "$SUBJECT_TEMPLATE"
         echo "set fmri(paradigm_hp) $HP_PARAM" >> "$SUBJECT_TEMPLATE"
