@@ -1,4 +1,3 @@
-
 # FEAT version number
 set fmri(version) 5.98
 
@@ -31,9 +30,6 @@ set fmri(featwatcher_yn) 0
 
 # Cleanup first-level standard-space images
 set fmri(sscleanup_yn) 0
-
-# Output directory
-set fmri(outputdir) "/u/Data_B/PSA/2010_adu/1678/imgs"
 
 # TR(s)
 set fmri(tr) 2.0
