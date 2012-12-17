@@ -55,7 +55,7 @@ print_usage() {
 
 # (psuedo-)check expected arguments
 MINIMUM_ARG_COUNT=4
-if [ $# < MINIMUM_ARG_COUNT ]; then
+if [ $# < $MINIMUM_ARG_COUNT ]; then
     print_usage
     exit 127
 fi
