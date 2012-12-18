@@ -74,8 +74,10 @@ MASK_DIR="$3"
 TR="$4"
 
 # get options
-while getopts "i:h:s:t:v" OPT; do
-    case $OPT in
+# shift opt index past positional arguments
+OPTIND=5
+while getopts i:h:s:t:v OPT; do
+    case "$OPT" in
         i)
             INITIAL_REG=1
             MAIN_STRUCT="$OPTARG"
