@@ -1,0 +1,23 @@
+#PBS -N fslbet
+#PBS -j oe
+#PBS -l select=1:ncpus=1:mem=128mb
+#PBS -l walltime=0:10:00
+#PBS -V
+#
+######################################################################
+#
+# INPUT::
+#
+#   input  - input image
+#   output - output image
+#   frac   - fractional intensity threshold
+#
+######################################################################
+
+
+cd "$PBS_O_WORKDIR" # change to directory that this job was launched
+                    # from
+
+bet "$input" "$ouput" -f $frac
+
+exit 0
