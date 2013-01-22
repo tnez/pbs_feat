@@ -39,14 +39,15 @@ outfile="$subject_dir/timeseries.txt"
 masks=( )
 ts_files=( )
 motion="$feat_dir/mc/prefiltered_func_data_mcf.par"
+motion_calc="$feat_dir/mc/prefiltered_func_data_mcf_rel.rms"
 for mask in `ls "$mask_dir" | sort -n | cut -d '.' -f1`; do
     masks=("${masks[@]}" "$mask")
     ts_files=("${ts_files[@]}" "$feat_dir"/"$mask"/"mean_mask_ts.txt")
 done
-header=`printf "\"%s\"," ${masks[@]} X_ROT Y_ROT Z_ROT X_TRANS Y_TRANS Z_TRANS`
+header=`printf "\"%s\"," ${masks[@]} X_ROT Y_ROT Z_ROT X_TRANS Y_TRANS Z_TRANS MCF_REL`
 printf "${header}\n" > "$outfile"
 sed 's/ \+/,/g' "$motion" > "${motion}.tmp"
-paste ${ts_files[@]} "${motion}.tmp" -d ',' >> "$tmp_outfile"
+paste ${ts_files[@]} "${motion}.tmp" <(echo "NaN"; cat "$motion_calc") -d ',' >> "$tmp_outfile"
 rm "${motion}.tmp"
 sed 's/,$//g' "$tmp_outfile" > "$outfile"
 rm "$tmp_outfile"
