@@ -20,4 +20,3 @@ cd "$PBS_O_WORKDIR" # change to directory that this job was launched
 
 bet "$input" "$output" -f $frac
 
-exit 0
