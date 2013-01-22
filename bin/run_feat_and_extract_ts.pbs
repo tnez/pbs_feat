@@ -34,6 +34,7 @@ done
 
 
 ## EXTRACT TS FROM FEATQUERY OUTPUT ##################################
+tmp_outfile="$subject_dir/timeseries.txt.tmp"
 outfile="$subject_dir/timeseries.txt"
 masks=( )
 ts_files=( )
@@ -42,9 +43,13 @@ for mask in `ls "$mask_dir" | sort -n | cut -d '.' -f1`; do
     masks=("${masks[@]}" "$mask")
     ts_files=("${ts_files[@]}" "$feat_dir"/"$mask"/"mean_mask_ts.txt")
 done
-header=`printf "%s\t" ${masks[@]} X_ROT Y_ROT Z_ROT X_TRANS Y_TRANS Z_TRANS`
-printf "${header}\n" >> "$outfile"
-paste ${ts_files[@]} "$motion" >> "$outfile"
+header=`printf "\"%s\"," ${masks[@]} X_ROT Y_ROT Z_ROT X_TRANS Y_TRANS Z_TRANS`
+printf "${header}\n" > "$outfile"
+sed 's/ \+/,/g' "$motion" > "${motion}.tmp"
+paste ${ts_files[@]} "${motion}.tmp" -d ',' >> "$tmp_outfile"
+rm "${motion}.tmp"
+sed 's/,$//g' "$tmp_outfile > "$outfile"
+rm "$outfile"
 
 
 ## EXIT ##############################################################
