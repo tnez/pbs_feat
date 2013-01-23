@@ -32,7 +32,7 @@ print_usage() {
     echo "  <mask-dir>     path to directory containing individual masks,"
     echo "                 each defining a unique region"
     echo  
-    echo "  <tr>           value for tr as float"
+    echo "  <tr>           value for tr in seconds as float"
     echo  
     echo "Options:"
     echo 
@@ -120,6 +120,7 @@ while read entry; do
     echo "set fmri(npts) $num_volumes" >> "$SUBJECT_TEMPLATE"
     echo "set fmri(outputdir) \"$SUBJECT_DIR/${SUBJECT_ID}.feat\"" >> "$SUBJECT_TEMPLATE"
     echo "set fmri(regstandard) \"$FSLDIR/data/standard/MNI152_T1_2mm_brain\"" >> "$SUBJECT_TEMPLATE"
+    echo "set fmri(tr) $TR" >> "$SUBJECT_TEMPLATE"
     if [ $INITIAL_REG == 1 ]; then
         echo "set fmri(reghighres_yn) 1" >> "$SUBJECT_TEMPLATE"
         echo "set highres_files(1) \"$SUBJECT_DIR/$MAIN_STRUCT\"" >> "$SUBJECT_TEMPLATE"

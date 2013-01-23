@@ -31,9 +31,6 @@ set fmri(featwatcher_yn) 0
 # Cleanup first-level standard-space images
 set fmri(sscleanup_yn) 0
 
-# TR(s)
-set fmri(tr) 2.0
-
 # Total volumes
 set fmri(npts) 0
 
