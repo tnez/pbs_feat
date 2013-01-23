@@ -49,7 +49,7 @@ printf "${header}\n" > "$outfile"
 sed 's/ \+/,/g' "$motion" > "${motion}.tmp"
 paste ${ts_files[@]} "${motion}.tmp" <(echo "NaN"; cat "$motion_calc") -d ',' >> "$tmp_outfile"
 rm "${motion}.tmp"
-sed 's/,$//g' "$tmp_outfile > "$outfile"
+sed 's/,$//g' "$tmp_outfile" > "$outfile"
 rm "$outfile"
 
 
