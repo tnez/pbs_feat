@@ -48,8 +48,8 @@ printf "${header}\n" > "$outfile"
 sed 's/ \+/,/g' "$motion" > "${motion}.tmp"
 paste ${ts_files[@]} "${motion}.tmp" -d ',' >> "$tmp_outfile"
 rm "${motion}.tmp"
-sed 's/,$//g' "$tmp_outfile > "$outfile"
-rm "$outfile"
+sed 's/,$//g' "$tmp_outfile" > "$outfile"
+rm "$tmp_outfile"
 
 
 ## EXIT ##############################################################
