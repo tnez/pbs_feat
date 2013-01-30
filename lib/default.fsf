@@ -98,7 +98,7 @@ set fmri(unwarp_dir) y-
 # 3 : Use slice order file
 # 4 : Use slice timings file
 # 5 : Interleaved (0, 2, 4 ... 1, 3, 5 ... )
-set fmri(st) 5
+set fmri(st) 0
 
 # Slice timings file
 set fmri(st_file) ""
@@ -106,11 +106,8 @@ set fmri(st_file) ""
 # BET brain extraction
 set fmri(bet_yn) 1
 
-# Spatial smoothing FWHM (mm)
-set fmri(smooth) 5
-
 # Intensity normalization
-set fmri(norm_yn) 0
+set fmri(norm_yn) 1
 
 # Perfusion subtraction
 set fmri(perfsub_yn) 0
@@ -247,7 +244,7 @@ set fmri(regstandard_search) 90
 set fmri(regstandard_dof) 12
 
 # Do nonlinear registration from structural to standard space?
-set fmri(regstandard_nonlinear_yn) 0
+set fmri(regstandard_nonlinear_yn) 1
 
 # Control nonlinear warp field resolution
 set fmri(regstandard_nonlinear_warpres) 10 
