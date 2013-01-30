@@ -51,9 +51,10 @@ paste ${ts_files[@]} "${motion}.tmp" <(echo "NaN"; cat "$motion_calc") -d ',' >>
 rm "${motion}.tmp"
 sed 's/,$//g' "$tmp_outfile" > "$outfile"
 sed 's/ \+,/,/g' "$outfile" > "$tmp_outfile"
-sed 's/,,/,/g' "tmp_outfile" > "$outfile"
+sed 's/,,/,/g' "$tmp_outfile" > "$outfile"
 rm "$tmp_outfile"
 
 
 ## EXIT ##############################################################
 exit 0
+
